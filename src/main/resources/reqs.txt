@@ -1,0 +1,20 @@
+Car Rental Service  Web Application(business owner should be able to track trips)
+
+High Level Requirements: 
+DONE: Maintain an inventory of cars(size 20 to 30: configurable)
+DONE: Track customer profiles: Can be corporate or individual
+DONE: Home page: All trips scheduled for the next 7 days including today
+DONE: Tracking Page: All past trips to be shown
+DONE: Booking page: Customer to book a car
+Sale page: View sales by car type, customer type, outstation trips etc
+clean up the db
+
+state assumptions and stuff
+High Level Architecture
+High Level Design
+
+Choice of Technologies and reason for the same
+Rest container: Dropwizard
+Database: Sqlite(Postgres local)
+
+** consider cloud and multi tenancy

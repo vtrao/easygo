@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<tables>
+	<inmemory>
+		<dbobject id="1" name="customer" type="table">
+			create table customer
+				(
+				id   integer primary key autoincrement,
+                name text not null,
+                type text not null
+				);
+		</dbobject>
+		<dbobject id="2" name="branch" type="table">
+			create table branch
+				(
+				id   integer primary key autoincrement,
+                name text not null,
+                location text,
+                minstock integer,
+                maxstock integer
+                );
+  		
+		</dbobject>
+		<dbobject id="3" name="car" type="table">
+			create table car
+				(
+				id   integer primary key autoincrement,
+                name text not null,
+                reg text not null,
+                status text not null,
+                type text not null,
+                costperday real,
+                homebranchid integer,
+                currentbranchid integer,
+                FOREIGN KEY (homebranchid) REFERENCES branch(id) ON DELETE CASCADE,
+                FOREIGN KEY (currentbranchid) REFERENCES branch(id) ON DELETE CASCADE
+                );
+		</dbobject>
+		<dbobject id="4" name="user" type="table">
+			create table user
+				(
+				id   integer primary key autoincrement,
+                name text not null,
+                password text
+                );
+		</dbobject>
+		<dbobject id="5" name="booking" type="table">
+			create table booking 
+				(
+				id   integer primary key autoincrement,
+				description text,
+				bookingtime text,
+				price real,
+				totaldays integer,
+				outsstationtrip integer
+				);
+		</dbobject>
+	    <dbobject id="6" name="trip" type="table">
+			create table trip 
+				(
+				id   integer primary key autoincrement,
+				bookingid integer,
+				customerid integer,
+				carid integer,
+				branchid integer,
+				fromdate text,
+				todate text,
+				status text,
+				totaldays integer,
+				outsstationtrip integer,
+				FOREIGN KEY (customerid) REFERENCES customer(id) ON DELETE CASCADE,
+				FOREIGN KEY (carid) REFERENCES car(id) ON DELETE CASCADE,
+				FOREIGN KEY (branchid) REFERENCES branch(id) ON DELETE CASCADE,
+				FOREIGN KEY (bookingid) REFERENCES booking(id) ON DELETE CASCADE,
+				UNIQUE(customerid, bookingid, carid) ON CONFLICT REPLACE
+				);
+		</dbobject> <!-- PRIMARY KEY(customerid, bookingid, carid )  order of these key important -->
+	    <dbobject id="7" name="sale" type="table">
+			create table sale 
+				(
+				id   integer primary key autoincrement,
+				bookingid integer,
+				customerid integer,
+				price real,
+				FOREIGN KEY (customerid) REFERENCES customer(id) ON DELETE CASCADE,
+				FOREIGN KEY (bookingid) REFERENCES booking(id) ON DELETE CASCADE
+				);
+		</dbobject>
+	</inmemory>
+	<initialData>
+		<customers>
+			<customer name="Venkat" type="INDIVIDUAL"/>
+			<customer name="Saurish" type="PREMIUM"/>
+			<customer name="Rishaank" type="PREMIUM"/>
+			<customer name="IntuitBglr" type="CORPORATE"/>
+			<customer name="IntuitHYD" type="CORPORATE"/>
+		</customers>
+		<branches>
+			<branch name="Tarnaka, Hyderabad" minstock="10" maxstock="20"/>
+			<branch name="Gachibowli, Hyderabad"  minstock="40" maxstock="100"/>
+			<branch name ="Sarjapur, Bangalore"  minstock="10" maxstock="20"/>
+			<branch name ="Yelhanka, Bangalore" minstock="30" maxstock="80"/>
+		</branches>
+	</initialData>
+</tables>
